@@ -2,7 +2,8 @@
 
 on:
   push:
-    branches: [feature_branch]
+    branches: 
+      - feature_branch
 
 jobs:
   deploy:
