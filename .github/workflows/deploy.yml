@@ -35,5 +35,5 @@ jobs:
 
       - name: Deploy Cloud Run Job
         run: |
-          gcloud run jobs update gcs-to-bq-job \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job \
+          gcloud run jobs update gcs-to-bq-job --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job --region ${{ secrets.GCP_REGION }} || \
+          gcloud run jobs create gcs-to-bq-job --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job --region ${{ secrets.GCP_REGION }}
