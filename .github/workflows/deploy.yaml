@@ -1,0 +1,40 @@
+ name: Deploy to Cloud Run Job
+
+on:
+  push:
+    branches: [feature_branch]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Docker for GCP
+      run: gcloud auth configure-docker
+
+    - name: Build Docker image
+      run: |
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job .
+
+    - name: Push Docker image to GCR
+      run: |
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job
+
+    - name: Deploy Cloud Run Job
+      run: |
+        gcloud run jobs update gcs-to-bq-job \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job \
+          --region ${{ secrets.GCP_REGION }} 
+        || gcloud run jobs create gcs-to-bq-job \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/gcs-to-bq-job \
+          --region ${{ secrets.GCP_REGION }}
