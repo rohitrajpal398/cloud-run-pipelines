@@ -11,6 +11,8 @@ def load_data(config):
     uri = f"gs://{config['gcs_bucket']}/{config['gcs_file']}"
     table_ref = f"{config['project_id']}.{config['bq_dataset']}.{config['bq_table']}"
 
+
+
     job_config = bigquery.LoadJobConfig(
         source_format=bigquery.SourceFormat.CSV,
         autodetect=True,
