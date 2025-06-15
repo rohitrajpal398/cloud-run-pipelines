@@ -1,4 +1,4 @@
- name: Deploy to Cloud Run Job
+name: Deploy to Cloud Run Job
 
 on:
   push:
