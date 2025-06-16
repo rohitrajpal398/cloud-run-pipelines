@@ -34,6 +34,7 @@ def load_data(config):
         load_job = client.load_table_from_uri(uri, table_ref, job_config=job_config)
         load_job.result()
         print(f"✅ Loaded data from {uri} into {table_ref}")
+        send_google_chat_alert("✅ Loaded data from {uri} into {table_ref}")
     except Exception as e:
         error_message = f"❌ Cloud Run Job Failed: Error loading data from GCS to BigQuery\n\n{str(e)}"
         print(error_message)
