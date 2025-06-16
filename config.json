@@ -1,7 +1,7 @@
 {
     "project_id": "airy-actor-457907-a8",
     "gcs_bucket": "sample-data-for-pract1",
-    "gcs_file": "orders.csv",
+    "gcs_file": "product.csv",
     "bq_dataset": "sales_dataset",
     "bq_table": "orders_tbl"
   }
